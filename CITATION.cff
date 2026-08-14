@@ -1,0 +1,14 @@
+cff-version: 1.2.0
+message: "If you use this skill in research, please cite this repository."
+title: "EAM Modeling Skill"
+type: software
+authors:
+  - name: "jackwzt"
+repository-code: "https://github.com/jackwzt/eam-modeling-skill"
+license: MIT
+keywords:
+  - evidence accumulation model
+  - cognitive modeling
+  - EMC2
+  - BayesFlow
+  - simulation-based inference

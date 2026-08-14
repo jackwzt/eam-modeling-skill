@@ -1,0 +1,62 @@
+name: Feature request
+description: Propose a new EAM workflow, model family, diagnostic, or helper.
+title: "[Feature]: "
+body:
+  - type: textarea
+    id: problem
+    attributes:
+      label: Modeling need
+      description: What scientific or workflow problem is currently difficult to solve?
+    validations:
+      required: true
+
+  - type: textarea
+    id: proposal
+    attributes:
+      label: Proposed capability
+      description: Describe the behavior, route, reference, or helper script you want added.
+    validations:
+      required: true
+
+  - type: dropdown
+    id: area
+    attributes:
+      label: Area
+      options:
+        - R / EMC2
+        - BayesFlow / SBI
+        - Dynamic or RL-EAM
+        - Joint, SEM, or causal analysis
+        - Data auditing
+        - Diagnostics and reporting
+        - Installation or documentation
+        - Other
+    validations:
+      required: true
+
+  - type: textarea
+    id: example
+    attributes:
+      label: Example prompt or use case
+      description: Show how a user would ask for this capability and what a successful result would contain.
+      render: text
+    validations:
+      required: true
+
+  - type: textarea
+    id: references
+    attributes:
+      label: Technical references
+      description: Link primary documentation, papers, public code, or public data that define the requested method.
+    validations:
+      required: false
+
+  - type: checkboxes
+    id: checks
+    attributes:
+      label: Pre-submission checks
+      options:
+        - label: I searched existing issues for related requests.
+          required: true
+        - label: This request does not include private data or credentials.
+          required: true
