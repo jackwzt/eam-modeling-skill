@@ -1,0 +1,4 @@
+interface:
+  display_name: "EAM Modeling"
+  short_description: "Fit and validate EMC2 or BayesFlow EAMs"
+  default_prompt: "Use $eam-modeling to inspect my choice and response-time data and build a validated EMC2 or BayesFlow analysis."

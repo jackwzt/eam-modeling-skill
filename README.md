@@ -1,2 +1,5 @@
-# eam-modeling-skill
-Codex skill for evidence-accumulation modeling with EMC2 and BayesFlow.
+# EAM Modeling Skill
+
+Codex skill for evidence-accumulation modeling with R/EMC2 and BayesFlow simulation-based inference.
+
+Install from the `eam-modeling/` subdirectory.
