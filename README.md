@@ -24,9 +24,9 @@ The skill turns choice and response-time data into a reproducible analysis workf
 
 Ask Codex:
 
-> Install the `eam-modeling` skill from `https://github.com/jackwzt/eam-modeling-skill/tree/main/eam-modeling`.
+> Use `$skill-installer` to install the `eam-modeling` skill from `https://github.com/jackwzt/eam-modeling-skill/tree/main/eam-modeling`.
 
-Restart Codex after installation so the skill is discovered.
+Codex detects installed skill changes automatically. Restart Codex only if the skill does not appear.
 
 ### Manual installation
 
@@ -36,16 +36,16 @@ PowerShell:
 
 ```powershell
 git clone https://github.com/jackwzt/eam-modeling-skill.git
-New-Item -ItemType Directory -Force "$env:USERPROFILE\.codex\skills" | Out-Null
-Copy-Item -Recurse -Force ".\eam-modeling-skill\eam-modeling" "$env:USERPROFILE\.codex\skills\"
+New-Item -ItemType Directory -Force "$env:USERPROFILE\.agents\skills" | Out-Null
+Copy-Item -Recurse -Force ".\eam-modeling-skill\eam-modeling" "$env:USERPROFILE\.agents\skills\"
 ```
 
 macOS or Linux:
 
 ```bash
 git clone https://github.com/jackwzt/eam-modeling-skill.git
-mkdir -p "$HOME/.codex/skills"
-cp -R ./eam-modeling-skill/eam-modeling "$HOME/.codex/skills/"
+mkdir -p "$HOME/.agents/skills"
+cp -R ./eam-modeling-skill/eam-modeling "$HOME/.agents/skills/"
 ```
 
 ## Quick start
@@ -127,3 +127,4 @@ Selected Bayesian workflow, amortized-inference, and causal-claim guardrails wer
 ## License
 
 This repository is released under the [MIT License](LICENSE).
+
