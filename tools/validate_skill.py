@@ -131,9 +131,29 @@ def main() -> int:
         if prompt_match is None or "$eam-modeling" not in prompt_match.group(1):
             errors.append("openai.yaml default_prompt must be quoted and mention $eam-modeling")
 
-    for markdown_file in ROOT.rglob("*.md"):
-        if ".git" in markdown_file.parts:
-            continue
+    scaffold = SKILL / "scripts" / "scaffold_sbi_analysis.py"
+    if scaffold.is_file():
+        scaffold_text = scaffold.read_text(encoding="utf-8")
+        for required_dependency in ('"bayesflow==2.0.12"', '"jax==0.11.0"'):
+            if required_dependency not in scaffold_text:
+                errors.append(
+                    "SBI scaffold is missing its audited inference dependency: "
+                    f"{required_dependency}"
+                )
+
+    if tracked:
+        markdown_files = sorted(
+            path for path in tracked if path.suffix.lower() == ".md" and path.is_file()
+        )
+    else:
+        excluded_runtime_dirs = {".git", ".venv", "venv", "__pycache__"}
+        markdown_files = [
+            path
+            for path in ROOT.rglob("*.md")
+            if excluded_runtime_dirs.isdisjoint(path.parts)
+        ]
+
+    for markdown_file in markdown_files:
         for raw_target in LINK_PATTERN.findall(markdown_file.read_text(encoding="utf-8")):
             target = local_link_target(markdown_file, raw_target)
             if target is not None and not target.exists():

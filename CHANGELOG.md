@@ -17,6 +17,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 
 ### Fixed
 
+- Generated BayesFlow projects now include the audited JAX backend and exact Day 5 Keras/PyMC versions, so a clean `uv sync` produces an importable environment.
+- Repository validation now ignores untracked virtual environments and generated projects, including deeply nested Windows paths.
 - BayesFlow diagnostics now import the correctly named training-history helper.
 - Training-history heuristics now handle negative losses and non-finite values more safely.
 
