@@ -21,6 +21,14 @@
 - Compare joint, blocked, single, and two-step variants only after aligning their estimands.
 - Inspect posterior correlations, cross-domain predictions, and sensitivity to covariance structure.
 
+## Joint behavioral-neural SBI
+
+- Define behavioral and M/EEG observation blocks, shared and modality-specific latent parameters, sampling rates/units, masks, and conditional-independence assumptions.
+- Validate behavior-only and neural-only simulators before their joint composition.
+- Compare joint and single-modality recovery to show which latent quantities gain information.
+- Run block-specific and joint PPCs; a good aggregate fit can conceal a failed modality.
+- Preserve uncertainty in single-trial neural regressors or intercepts rather than treating estimated latent values as observed covariates.
+
 ## SEM-linked analyses
 
 - Define latent variables, indicators, structural paths, and cognitive parameters before estimation.

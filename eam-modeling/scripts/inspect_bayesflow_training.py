@@ -21,8 +21,8 @@ integer for online training to auto-simulate validation sets). If ``val_loss``
 is absent, the script still runs but cannot check for overfitting.
 
 Usage:
-    python inspect_training.py --history history.json
-    python inspect_training.py --history history.json --output report.json
+    python inspect_bayesflow_training.py --history history.json
+    python inspect_bayesflow_training.py --history history.json --output report.json
 """
 
 import argparse
@@ -32,8 +32,8 @@ import sys
 
 
 # Thresholds
-OVERFIT_RATIO = 1.1       # avg val_loss (last 10%) > OVERFIT_RATIO * avg train_loss (last 10%)
-UNDERFIT_RATIO = 0.99     # loss still decreasing by > 1% at final epoch
+OVERFIT_RELATIVE_GAP = 0.10
+UNDERFIT_RELATIVE_IMPROVEMENT = 0.01
 
 
 def inspect_history(history: dict) -> dict:
@@ -62,9 +62,14 @@ def inspect_history(history: dict) -> dict:
     report: dict = {}
 
     # ── NaN check ─────────────────────────────────────────────
-    # val_loss is absent for online training — that is expected and fine.
-    train_has_nan = any(math.isnan(v) for v in train_loss)
-    val_has_nan = val_loss is not None and any(math.isnan(v) for v in val_loss)
+    try:
+        train_loss = [float(value) for value in train_loss]
+        val_loss = None if val_loss is None else [float(value) for value in val_loss]
+    except (TypeError, ValueError):
+        return {"error": "Training history loss values must be numeric."}
+
+    train_has_nan = any(not math.isfinite(v) for v in train_loss)
+    val_has_nan = val_loss is not None and any(not math.isfinite(v) for v in val_loss)
     report["nan_check"] = {
         "train_nan": train_has_nan,
         "val_nan": val_has_nan,
@@ -86,14 +91,15 @@ def inspect_history(history: dict) -> dict:
         n_tail = max(1, math.ceil(len(train_loss) * 0.1))
         avg_val_tail = sum(val_loss[-n_tail:]) / n_tail
         avg_train_tail = sum(train_loss[-n_tail:]) / n_tail
-        ratio = avg_val_tail / avg_train_tail if avg_train_tail != 0 else float("inf")
-        overfit = ratio > OVERFIT_RATIO
+        relative_gap = (avg_val_tail - avg_train_tail) / max(abs(avg_train_tail), 1e-12)
+        overfit = relative_gap > OVERFIT_RELATIVE_GAP
         report["overfitting"] = {
             "detected": overfit,
             "avg_val_loss_last_10pct": avg_val_tail,
             "avg_train_loss_last_10pct": avg_train_tail,
-            "ratio": round(ratio, 3),
-            "threshold": OVERFIT_RATIO,
+            "relative_gap": round(relative_gap, 3),
+            "threshold": OVERFIT_RELATIVE_GAP,
+            "note": "Heuristic only; inspect full curves and held-out diagnostics.",
         }
     else:
         report["overfitting"] = {
@@ -105,18 +111,25 @@ def inspect_history(history: dict) -> dict:
         }
 
     # ── Under-training ────────────────────────────────────────
-    if len(train_loss) >= 2:
-        still_decreasing = train_loss[-1] < train_loss[-2] * UNDERFIT_RATIO
+    if len(train_loss) >= 4:
+        n_tail = max(1, math.ceil(len(train_loss) * 0.1))
+        current = sum(train_loss[-n_tail:]) / n_tail
+        previous_slice = train_loss[-2 * n_tail : -n_tail]
+        previous = sum(previous_slice) / len(previous_slice)
+        relative_improvement = (previous - current) / max(abs(previous), 1e-12)
+        still_decreasing = relative_improvement > UNDERFIT_RELATIVE_IMPROVEMENT
         report["under_training"] = {
             "detected": still_decreasing,
-            "loss_second_last": train_loss[-2],
-            "loss_last": train_loss[-1],
-            "threshold": UNDERFIT_RATIO,
+            "previous_tail_mean": previous,
+            "current_tail_mean": current,
+            "relative_improvement": round(relative_improvement, 3),
+            "threshold": UNDERFIT_RELATIVE_IMPROVEMENT,
+            "note": "Heuristic only; a plateau does not establish calibrated inference.",
         }
     else:
         report["under_training"] = {
             "detected": None,
-            "message": "Only 1 epoch — cannot assess under-training.",
+            "message": "Fewer than 4 epochs — cannot assess under-training.",
         }
 
     # ── Overall ───────────────────────────────────────────────
@@ -127,7 +140,7 @@ def inspect_history(history: dict) -> dict:
         issues.append("Validation loss contains NaN — inspect simulator outputs and standardization")
     if report["overfitting"].get("detected"):
         issues.append(
-            f"Overfitting detected (avg val/train ratio {report['overfitting']['ratio']}x over last 10% of epochs) "
+            f"Possible overfitting detected (relative validation gap {report['overfitting']['relative_gap']} over the final 10% of epochs) "
             "— reduce capacity, add regularization, or increase simulation budget"
         )
     if report["under_training"].get("detected"):

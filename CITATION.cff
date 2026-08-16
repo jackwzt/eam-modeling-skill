@@ -1,14 +1,20 @@
 cff-version: 1.2.0
 message: "If you use this skill in research, please cite this repository."
-title: "EAM Modeling Skill"
+title: "EAM and SBI Modeling Skill"
 type: software
 authors:
   - name: "jackwzt"
 repository-code: "https://github.com/jackwzt/eam-modeling-skill"
+url: "https://github.com/jackwzt/eam-modeling-skill"
 license: MIT
+abstract: "An independent Codex skill for reproducible evidence-accumulation modeling and simulation-based inference with EMC2, BayesFlow, and Superstats."
 keywords:
   - evidence accumulation model
   - cognitive modeling
   - EMC2
   - BayesFlow
   - simulation-based inference
+  - Superstats
+  - amortized inference
+  - Bayesian workflow
+  - response time

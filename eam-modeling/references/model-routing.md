@@ -11,6 +11,9 @@
 | Participant predictors or groups | Subject design plus `group_design()` | Center/code predictors and distinguish beta from mapped cell values |
 | Parameter changes across trials | Dynamic EAM | Preserve trial order and verify covariate/kernel recursion |
 | Instrumental learning with rewards | RL-EAM | Define actions, feedback ownership, resets, and Q-value initialization |
+| Intractable simulator; many repeated posterior queries | BayesFlow NPE | Validate simulator support, recovery, calibration, contraction, and PPCs |
+| Learned likelihood/ratio needed for PyMC composition | BayesFlow NLE/NRE | Benchmark the learned density/ratio against a tractable target |
+| Full stochastic parameter trajectories and transition parameters | Superstats | Validate trajectory priors, per-step recovery/calibration, masks, and posterior resimulation |
 | Stop trials and inhibition | Stop-signal race architecture | Go/stop dependence and trigger failures require explicit assumptions |
 | Continuous judgments | CDM/PSDM course workflow | Do not force discrete-choice EAM conventions onto continuous responses |
 | Cognitive parameters linked to other outcomes | Joint cognitive model or SEM | Propagate measurement uncertainty; avoid error-free two-step scores |

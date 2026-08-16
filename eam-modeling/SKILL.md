@@ -1,170 +1,124 @@
 ---
 name: eam-modeling
-description: Inspect, design, fit, diagnose, compare, and report evidence-accumulation analyses for choice and response-time data using R/EMC2 or BayesFlow simulation-based inference. Use for WDM, DDM, LBA, RDM, LNR, hierarchical and between-subject EAMs, dynamic trial-by-trial EAMs, reinforcement-learning EAMs, amortized EAM inference, stop-signal models, continuous judgments, joint cognitive/EEG models, SEM-linked or causal analyses, EMC2/BayesFlow convergence and calibration troubleshooting, and CSV/XLSX/RDS/RData datasets containing choices, RTs, rewards, conditions, or participant identifiers.
+description: Inspect, explain, design, fit, diagnose, compare, validate, and report evidence-accumulation and simulation-based inference analyses. Use for MBNCS26 Days 1-5 material; R/EMC2 WDM, DDM, LBA, RDM, LNR, hierarchical, between-subject, dynamic, reinforcement-learning, stop-signal, continuous-judgment, joint, SEM, fMRI, and causal workflows; BayesFlow NPE/NLE/NRE, PyMC composition, model comparison, DMC/LCA simulators, calibration, and joint behavioral-neural inference; or Superstats time-varying cognitive models.
 ---
 
-# EAM Modeling
+# Evidence-accumulation and SBI modeling
 
-Build reproducible cognitive-model analyses while keeping theory, data coding, estimation, and predictive adequacy separate and auditable.
+Build reproducible cognitive-model analyses while keeping the scientific claim, data coding, generative model, estimator, and predictive adequacy separate and auditable. Treat MBNCS26 examples as teaching patterns rather than validated defaults for new data.
 
 ## Route the request
 
-Classify the task before acting:
-
-- **Explain or review:** inspect the supplied code, model object, output, or course example; do not refit unless asked.
-- **Audit data:** run the data audit and return a mapping plus blocking issues.
-- **Build an analysis:** create an analysis directory, configuration, executable R script, and report skeleton.
-- **Fit models:** run environment and data gates, then prior checks, pilot sampling, full sampling, diagnostics, and posterior prediction.
-- **Amortized/SBI EAM:** validate the simulator, route structured observations through a BayesFlow adapter, train offline with validation, check recovery/calibration, then run real-data inference and simulator-based PPCs.
+- **Explain or review course material:** inspect the supplied code, object, output, or named day; do not refit unless asked.
+- **Audit data:** map participant, response, RT, stimulus, condition, trial order, reward, neural, and grouping fields before modeling.
+- **Likelihood-based EAM:** use R/EMC2 for standard, hierarchical, between-subject, joint, SEM, stop-signal, continuous-judgment, dynamic, or RL analyses when the required likelihood/API exists.
+- **General SBI:** choose NPE, NLE, NRE, or classifier-based model comparison from the scientific query and downstream inference needs.
+- **Amortized EAM:** use BayesFlow with explicit adapters and set/time-series routing; train on simulations, validate in silico, then infer real data.
+- **Superstatistics:** use Superstats when the target includes full time-varying parameter trajectories and transition-process parameters.
 - **Causal EAM/SEM:** separate the cognitive measurement model from the causal estimand, confirm identification assumptions, propagate latent uncertainty, and calibrate causal language.
-- **Diagnose a fit:** load the saved object, inspect convergence/efficiency and predictive fit, identify the cause, and change code only when asked.
-- **Compare or report:** compare only models fit to the same observations and preprocessing; report absolute fit as well as relative preference.
+- **Diagnose or compare:** distinguish sampler/training convergence, approximation quality, absolute predictive fit, and relative model preference.
 
 ## Load only the needed references
 
+- Read [course-map.md](references/course-map.md) to locate a five-day worked example.
+- Read [provenance-and-credits.md](references/provenance-and-credits.md) before using or describing MBNCS26-derived material.
 - Read [data-schema.md](references/data-schema.md) for every new dataset.
 - Read [model-routing.md](references/model-routing.md) before choosing a likelihood or architecture.
-- Read [emc2-workflow.md](references/emc2-workflow.md) for standard, hierarchical, between-subject, fitting, or diagnostic work.
-- Read [rl-dynamic-workflow.md](references/rl-dynamic-workflow.md) for trial-varying covariates, custom kernels, learning, Q-values, or feedback.
-- Read [advanced-models.md](references/advanced-models.md) for stop-signal, continuous-judgment, joint-model, fMRI, or SEM work.
-- Read [reporting.md](references/reporting.md) before delivering an analysis or scientific interpretation.
-- Read [course-map.md](references/course-map.md) only when locating a worked example or tracing the course source.
+- Read [emc2-compatibility.md](references/emc2-compatibility.md) before writing or running EMC2 code.
+- Read [emc2-workflow.md](references/emc2-workflow.md) for standard, hierarchical, group, fitting, prediction, or diagnostic work.
+- Read [rl-dynamic-workflow.md](references/rl-dynamic-workflow.md) for trial-varying covariates, kernels, learning, Q-values, or feedback.
+- Read [advanced-models.md](references/advanced-models.md) for stop-signal, continuous-judgment, joint, M/EEG, fMRI, or SEM work.
+- Read [sbi-estimator-routing.md](references/sbi-estimator-routing.md) for NPE, NLE, NRE, PyMC composition, or neural model comparison.
+- Read [day5-sbi-patterns.md](references/day5-sbi-patterns.md) before adapting a Day 5 example.
+- Read [baygent-amortized-eam.md](references/baygent-amortized-eam.md) for BayesFlow adapters, simulator banks, offline training, recovery, or calibration.
+- Read [superstats-workflow.md](references/superstats-workflow.md) for neural superstatistics and time-varying SBI.
 - Read [baygent-bayesian-gates.md](references/baygent-bayesian-gates.md) before any new fit, sensitivity analysis, or model comparison.
-- Read [baygent-amortized-eam.md](references/baygent-amortized-eam.md) for BayesFlow, SBI, neural posterior estimation, simulator banks, adapters, recovery, calibration, or amortized inference.
-- Read [baygent-causal-claims.md](references/baygent-causal-claims.md) when the user asks for causal, mediation, intervention, counterfactual, or structural claims.
+- Read [baygent-causal-claims.md](references/baygent-causal-claims.md) for causal, mediation, intervention, counterfactual, or structural claims.
+- Read [reporting.md](references/reporting.md) before delivering an analysis or scientific interpretation.
 
 ## Execute the workflow
 
-### 1. Preserve and orient
+### 1. Preserve, scope, and record provenance
 
-- Treat raw data and supplied fitted objects as immutable.
-- Resolve the input file, current working directory, output directory, R executable, EMC2 version, and operating system.
-- On Windows, locate `Rscript.exe` under `C:\Program Files\R` if it is not on `PATH`.
-- Run `scripts/check_eam_environment.R` before building or fitting.
+- Treat raw data, supplied fits, simulator code, and course assets as immutable.
+- State the scientific question, observables, latent quantities, estimand, candidate models, and available compute.
+- Record data, simulator, software, course, repository, commit, license, and modification provenance.
+- Apply the course attribution and redistribution boundary when MBNCS26 material is used.
 
-### 2. Audit the data
+### 2. Check the environment and API
 
-Run:
+- Run `scripts/check_eam_environment.R` before EMC2 work. Require the dynamic API for Day 4 kernels or RL models.
+- Run `scripts/check_sbi_environment.py --profile day5` for the MBNCS26 BayesFlow environment.
+- Run `scripts/check_sbi_environment.py --profile superstats` for Superstats.
+- Inspect actual function availability and signatures. Do not infer API compatibility from a package version alone.
+- Use a project-local R library or Python environment when changing EMC2 branches or deep-learning backends.
 
-```powershell
-& <Rscript.exe> <skill-dir>\scripts\inspect_eam_data.R `
-  --input <data-file> `
-  --output-dir <analysis-dir>\audit
-```
+### 3. Audit the data and simulator
 
-Pass `--object <name>` when an `.RData` file contains multiple data frames. Pass `--rt-unit seconds` or `--rt-unit milliseconds` when units are known.
+Run the data audit for CSV, XLSX, RDS, or RData inputs and inspect every generated file. Resolve response coding, RT units, trial order, condition levels, reset boundaries, missingness, truncation/censoring, contamination, exclusions, and sparse cells.
 
-Inspect all generated files. Resolve at least:
+For simulators, test deterministic seed behavior, parameter order, bounds, transforms, units, output shapes, invalid/non-boundary-crossing trials, missing masks, and contamination. Run a small prior-predictive batch before training or fitting.
 
-- participant identifier;
-- observed response and its factor ordering;
-- response time and unit;
-- stimulus/correct-response coding;
-- trial ordering within participant;
-- experimental factors and reference levels;
-- reward, action/symbol, and feedback fields for RL-EAMs;
-- missingness, impossible values, truncation/censoring, and trial exclusions.
+### 4. Choose a theory-driven model and estimator
 
-Infer obvious mappings, but state them. Stop before fitting if response coding, RT units, trial order, or the scientific contrast is ambiguous.
-
-### 3. Choose a theory-driven model set
-
-- State the psychological processes each parameter is intended to represent.
-- Match likelihood architecture to the task, not merely to software availability.
-- Define a small candidate set that answers the question and exposes important alternatives.
-- Keep preprocessing and observations identical across compared models.
-- Do not select a final model solely from an information criterion.
-
-### 4. Scaffold the analysis
-
-Run:
-
-```powershell
-& <Rscript.exe> <skill-dir>\scripts\new_eam_analysis.R `
-  --input <data-file> `
-  --output-dir <analysis-dir> `
-  --model-family hierarchical-lba
-```
-
-Edit the generated `analysis-config.R`; then create a task-specific R analysis script. Verify `sampled_pars()`, `mapped_pars()`, and `plot_design()` before sampling.
+- State the process interpretation and observable implications of each free parameter.
+- Keep the candidate set small and scientifically motivated.
+- Keep data rows, response coding, units, and preprocessing identical across compared models.
+- Enforce EAM scale identification and simulator support explicitly.
+- Use NPE for repeated direct posterior queries, NLE for learned-likelihood composition, NRE for ratio-based inference, and model comparison only with a declared model set and model prior.
+- Route exchangeable trials through a set representation and ordered learning/dynamic trials through a time-series representation.
 
 ### 5. Validate priors and identifiability
 
-- Specify priors on EMC2's sampling scale and inspect them after mapping to natural units.
-- Enforce scale identification explicitly.
-- Run prior-predictive simulation and reject impossible RT, accuracy, learning, or parameter trajectories.
-- Use simulation/recovery when the design or custom parameter mapping is new.
-- For BayesFlow EAMs, keep structured trial data out of flat condition vectors; use explicit adapters whenever constraints, masking, dtype conversion, or structural routing is needed.
+- Specify EMC2 priors on the sampling scale and inspect mapped natural-scale implications.
+- Inspect parameter-path priors and prior push-forwards for dynamic/Superstats models.
+- Reject impossible RT, choice, learning, neural, or trajectory simulations.
+- Run parameter/model recovery when a design, simulator, transition, summary, or mapping is new.
 
-### 6. Fit in stages
+### 6. Fit or train in stages
 
-- Start with a short pilot fit to expose likelihood, coding, and sampler failures.
-- Run the full fit only after the pilot is structurally sound.
-- On Windows use `cores_for_chains`; do not use `cores_per_chain`.
-- Save fitted objects without assignment: `save(fit, file = path)`. Do not write `fit <- save(...)`.
-- Load with `load(path)` when the saved object name is known. Use `get(load(path))` only when deliberately capturing an unknown single object.
-- Preserve seeds, package versions, formulas, constants, exclusions, and source-data hashes in the output.
+- Pilot before a full MCMC fit or large simulation bank.
+- On Windows, use EMC2 `cores_for_chains`; keep `cores_per_chain = 1`.
+- For BayesFlow, start with offline training and held-out validation; save split seeds, history, checkpoints, package lock, and simulator hash.
+- Use online training only as a justified refinement after an offline pass.
+- For Superstats, preserve local, hyper, shared, and fixed parameter roles and the time axis.
+- Never assign the return value of R `save()` to a fit object.
 
 ### 7. Apply diagnostic gates
 
-Do not interpret parameters until all relevant gates pass:
+Do not interpret real-data parameters until the relevant gates pass:
 
-- chains are stationary and mixed;
-- R-hat is acceptable for every inferential target;
-- effective sample sizes are adequate;
-- posterior correlations and boundary behavior are understood;
-- participant-level pathologies are checked in hierarchical fits;
-- posterior predictions reproduce the main choice and RT patterns.
-- amortized estimators pass held-out recovery, calibration ECDF/coverage, contraction, and training-history checks before real-data inference.
+- MCMC stationarity, chain mixing, R-hat, effective sample size, autocorrelation, posterior geometry, and participant-level checks;
+- training-history stability without NaN/divergence;
+- held-out parameter and model recovery;
+- SBC/calibration, coverage, contraction, and estimator/seed disagreement;
+- prior and posterior predictive checks for choice, RT, condition effects, learning curves, trajectories, and neural observations;
+- comparison with an analytic likelihood, EMC2, HSSM, or another tractable benchmark when available.
 
-Treat sampler convergence and model adequacy as separate questions. A converged bad model remains a bad model.
+Treat convergence, approximation quality, model adequacy, and model comparison as four different questions.
 
-### 8. Criticize, compare, and report
+### 8. Report and hand off
 
-- Plot defective densities or CDFs and targeted statistics by scientifically important conditions.
-- Report persistent misfit, especially tails, errors, sparse cells, and speed–accuracy effects.
-- Compare DIC/BPIC/marginal-deviance evidence only alongside predictive checks, identifiability, and theoretical interpretability.
-- Distinguish coefficient scale from mapped natural scale.
-- Label exploratory choices and avoid causal or clinical generalization beyond the design.
-
-## Required output structure
-
-For a new analysis, prefer:
-
-```text
-analysis-name/
-├── audit/
-├── config/
-├── scripts/
-├── fits/
-├── diagnostics/
-├── posterior-predictive/
-├── tables/
-├── figures/
-├── logs/
-└── report/
-```
-
-Return the following in the handoff:
-
-- data mapping and exclusions;
-- model formulas, contrasts, constants, and priors;
-- convergence and efficiency status;
-- posterior-predictive successes and failures;
-- model-comparison result with limitations;
-- paths to scripts, saved fits, and report;
-- exact unresolved blockers or recommended next model.
+Export the data mapping, exclusion ledger, formulas, contrasts, priors, simulator, estimator/training configuration, checkpoints or fits, posterior draws, PPCs, recovery/calibration outputs, sensitivity results, model comparison, provenance, and limitations. Report failed gates as prominently as passed gates.
 
 ## Hard guardrails
 
-- Never alter raw data in place.
-- Never silently convert milliseconds to seconds, reorder response levels, or collapse conditions.
-- Never delete RT outliers solely because they are inconvenient; justify truncation/censoring from task and measurement facts.
-- Never call a fit converged from one trace plot or a single summary statistic.
-- Never claim psychological evidence from a parameter whose mapping was not verified.
-- Never treat participant point estimates as error-free group data when a joint hierarchy is feasible.
-- Never overwrite a supplied fit; create a new named version.
-- Never launch a long fit when a precomputed course sample already answers an explanation-only request.
-- Never use BayesFlow training loss alone as evidence that posterior inference is valid.
-- Never flatten exchangeable or ordered EAM trials into a fixed condition vector merely to fit a neural network.
-- Never make a causal claim from an EAM coefficient or model comparison without an identified causal design and explicit assumptions.
+- Never alter raw data or supplied fits in place.
+- Never silently convert RT units, reorder response levels, flatten ordered trials, or collapse conditions.
+- Never extrapolate beyond simulator/prior support without redesigning simulations and revalidating.
+- Never treat low training loss, convergence, or a winning comparison as evidence of scientific adequacy by itself.
+- Never treat participant posterior means as error-free outcomes when joint uncertainty propagation is feasible.
+- Never make a causal claim without an identified design, explicit graph/assumptions, and sensitivity/refutation checks.
+- Never copy or redistribute MBNCS26 notebooks, slides, recordings, datasets, logos, or checkpoints through this skill.
+- Never describe this skill as official or endorsed by MBNCS26 presenters, organizers, software authors, their institutions, or OpenAI.
+- Keep unrelated courses and summer schools outside this MBNCS26 skill.
+
+## Bundled tools
+
+- `scripts/check_eam_environment.R` — inspect R, EMC2, stable/dynamic API availability, and Windows parallel constraints.
+- `scripts/inspect_eam_data.R` — audit common behavioral data formats without modifying the input.
+- `scripts/new_eam_analysis.R` — scaffold a likelihood-based EAM analysis.
+- `scripts/check_sbi_environment.py` — inspect BayesFlow, PyMC, HSSM, Superstats, backends, and Python compatibility without heavy imports.
+- `scripts/scaffold_sbi_analysis.py` — scaffold NPE/NLE/NRE/model-comparison/Superstats projects with uv metadata.
+- `scripts/inspect_bayesflow_training.py` — inspect saved training histories.
+- `scripts/check_bayesflow_diagnostics.py` — summarize saved recovery, calibration, and contraction metrics.

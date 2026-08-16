@@ -14,6 +14,7 @@
 10. Hypothesis tests or model comparison
 11. Sensitivity analyses and limitations
 12. Reproducibility paths and saved-object names
+13. Course/software provenance, credits, licenses, commits, and modifications
 
 ## Claim discipline
 
@@ -35,5 +36,7 @@ Include a compact table with:
 | Convergence | pass/warn/block | R-hat/ESS/trace output |
 | Posterior predictive | pass/warn/block | condition-level plots |
 | Model comparison | completed/not applicable | table |
+| Sensitivity | completed/not applicable | table/figure |
+| Provenance/credits | complete/incomplete | provenance record |
 | Main limitation | text | diagnostic or design fact |
 

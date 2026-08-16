@@ -5,3 +5,4 @@
 *.py text eol=lf
 *.R text eol=lf
 *.cff text eol=lf
+*.bib text eol=lf

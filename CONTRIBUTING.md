@@ -28,12 +28,26 @@ Keep `SKILL.md` concise and under 500 lines. Its YAML frontmatter must retain a 
 4. Add or revise references when new dependencies, assumptions, or diagnostic gates are introduced.
 5. Keep `eam-modeling/agents/openai.yaml` aligned with the skill's purpose and default prompt.
 
+## Cite and credit sources
+
+- Add a primary paper or official software citation for new scientific or computational methods.
+- Update `CITATIONS.md` and `CITATIONS.bib` when a new method needs a reusable citation.
+- Update `CREDITS.md` and the skill's provenance reference when adapting a new tutorial, course session, or software project.
+- Record the exact upstream revision and license when code or a close procedural adaptation is introduced.
+- Do not imply endorsement by course presenters, organizers, institutions, software authors, or OpenAI.
+
 ## Validate
 
 Run an Agent Skills validator from the repository root:
 
 ```bash
 skills-ref validate ./eam-modeling
+```
+
+Run the repository validator used by continuous integration:
+
+```bash
+python tools/validate_skill.py
 ```
 
 When working inside Codex on Windows, the bundled validator can also be used:
@@ -60,5 +74,6 @@ For workflow changes, test a realistic prompt and verify that the skill chooses 
 - [ ] The skill validator passes.
 - [ ] `CHANGELOG.md` describes user-visible behavior.
 - [ ] New scientific claims include appropriate assumptions and limitations.
+- [ ] New sources have appropriate citations, credits, revisions, and license boundaries.
 
 By contributing, you agree that your contribution will be licensed under the repository's MIT License.

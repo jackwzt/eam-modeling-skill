@@ -2,6 +2,8 @@
 
 Adapted from `Learning-Bayesian-Statistics/baygent-skills` at commit `aa940481ebb9fbd087b2fc41dba3af386b5bdb31` (MIT; see `baygent-license.md`). Use this route when the user requests BayesFlow/SBI or an EAM likelihood is unavailable or too costly. For ordinary EMC2 fits, use `emc2-workflow.md`.
 
+Use `sbi-estimator-routing.md` before assuming NPE is appropriate. The MBNCS26 Day 5 lock and audited Superstats main currently target BayesFlow 2.0.12; inspect actual constructors and method signatures when another version is active.
+
 ## Route EAM observations correctly
 
 | EAM input | BayesFlow route | Default encoder |
