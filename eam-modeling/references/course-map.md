@@ -2,10 +2,6 @@
 
 Use these materials to locate worked examples. Never treat a course default as a validated prior, exclusion rule, model, or software configuration for new data. Read `provenance-and-credits.md` before adapting course-specific content.
 
-## Local material root
-
-`C:/Users/Jack/Documents/Codex/2026-08-11/https-github-com-niekstevenson-mbncs26-tree/outputs/MBNCS26-Summer-School-Summaries/Source-Materials`
-
 ## Day 1: Bayesian and basic EAM foundations
 
 - `Day1-BasicEAMs/1-EAMs.R`: core evidence-accumulation concepts and model setup.
