@@ -15,6 +15,8 @@ For ordinary choice/RT EAMs, resolve:
 
 For RL-EAMs additionally resolve action/symbol identity, received outcome/reward, which symbol the feedback belongs to, block/session resets, and counterfactual feedback structure.
 
+For SBI or joint behavioral-neural models additionally resolve dataset/sequence identifiers, time/sample indices, modality-specific units and sampling rates, masks/padding sentinels, alignment between behavioral trials and neural observations, and whether observations are exchangeable or ordered.
+
 ## Audit sequence
 
 1. Preserve the original file and record its absolute path, size, modification time, and hash.

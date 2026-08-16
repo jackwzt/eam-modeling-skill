@@ -1,0 +1,70 @@
+name: Bug report
+description: Report incorrect routing, instructions, scripts, or diagnostics.
+title: "[Bug]: "
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for reporting a problem. Do not upload private data, credentials, fitted samples, or identifiable participant information.
+
+  - type: textarea
+    id: problem
+    attributes:
+      label: Problem
+      description: What happened, and what did you expect instead?
+      placeholder: Describe the observed and expected behavior.
+    validations:
+      required: true
+
+  - type: textarea
+    id: prompt
+    attributes:
+      label: Triggering prompt
+      description: Provide the smallest prompt that reproduces the behavior.
+      render: text
+    validations:
+      required: true
+
+  - type: dropdown
+    id: route
+    attributes:
+      label: Workflow route
+      options:
+        - R / EMC2
+        - BayesFlow / SBI
+        - Dynamic or RL-EAM
+        - Joint, SEM, or causal analysis
+        - Skill triggering or documentation
+        - Unsure
+    validations:
+      required: true
+
+  - type: textarea
+    id: environment
+    attributes:
+      label: Environment
+      description: Include operating system, Codex/client version if known, and relevant R/Python package versions.
+      placeholder: Windows 11; R 4.x; EMC2 x.y.z; Python 3.x; BayesFlow x.y.z
+    validations:
+      required: true
+
+  - type: textarea
+    id: reproduction
+    attributes:
+      label: Minimal reproduction and logs
+      description: Use synthetic or public data. Remove secrets and participant information from logs.
+      render: shell
+    validations:
+      required: false
+
+  - type: checkboxes
+    id: checks
+    attributes:
+      label: Pre-submission checks
+      options:
+        - label: I searched existing issues for the same problem.
+          required: true
+        - label: I removed private data, secrets, and identifiable information.
+          required: true
+        - label: I can reproduce the problem with the current main branch.
+          required: true

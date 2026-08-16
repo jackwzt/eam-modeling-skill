@@ -1,5 +1,7 @@
 # RL and dynamic EAM workflow
 
+Require exported `make_kernel()`, `make_base()`, and `make_trend()` before constructing these models; see `emc2-compatibility.md`. Do not source development files into a release namespace.
+
 ## Required sequence
 
 1. Sort trials within participant, session, and block.
@@ -12,6 +14,8 @@
 8. Verify generated choices, RTs, Q-values, and parameter paths.
 9. Fit a reduced pilot, then the intended hierarchical model.
 10. Check both behavioral predictions and latent trajectory plausibility.
+
+For the audited EMC2 development API, construct the dynamic layer in this order: `make_kernel()` identifies the covariate and recursion/shape, `make_base()` maps that kernel to a target cognitive parameter and phase, and `make_trend()` combines bases for `design()`. Confirm actual formals and supported kernel types from the installed namespace before adapting tutorial code.
 
 ## RL-EAM design questions
 

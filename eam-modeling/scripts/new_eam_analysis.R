@@ -28,10 +28,15 @@ if (file.exists(config_path)) {
 }
 
 q <- function(x) encodeString(normalizePath(x, winslash = "/", mustWork = FALSE), quote = '"')
+required_api <- if (grepl("dynamic|trend|rl", model_family, ignore.case = TRUE)) "dynamic" else "standard"
+input_md5 <- if (file.exists(input)) unname(tools::md5sum(input)) else NA_character_
 config <- c(
   "# Review every value before fitting. NA means unresolved.",
   paste0("input_file <- ", q(input)),
   paste0("model_family <- ", encodeString(model_family, quote = '"')),
+  paste0("required_emc2_api <- ", encodeString(required_api, quote = '"')),
+  "emc2_version <- if (requireNamespace('EMC2', quietly = TRUE)) as.character(packageVersion('EMC2')) else NA_character_",
+  "emc2_dynamic_api <- if (requireNamespace('EMC2', quietly = TRUE)) all(c('make_kernel', 'make_base', 'make_trend') %in% getNamespaceExports('EMC2')) else FALSE",
   "",
   "columns <- list(",
   "  subjects = NA_character_,",
@@ -59,7 +64,9 @@ config <- c(
   "cores_for_chains <- 3L  # Windows: parallel chains, one core per chain",
   "seed <- 20260813L",
   "pilot_iterations <- 100L",
-  "fit_file <- file.path('fits', paste0(model_family, '-v1.RData'))"
+  "fit_file <- file.path('fits', paste0(model_family, '-v1.RData'))",
+  paste0("source_data_md5 <- ", if (is.na(input_md5)) "NA_character_" else encodeString(input_md5, quote = '"')),
+  "software_source_commit <- NA_character_"
 )
 writeLines(config, config_path, useBytes = TRUE)
 

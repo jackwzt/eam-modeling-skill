@@ -14,6 +14,8 @@ Adapted for EMC2/EAM work from `Learning-Bayesian-Statistics/baygent-skills` at 
 8. Compare models only on identical observations and preprocessing.
 9. Save fits immediately and produce a fixed-structure report with an audit trail.
 
+For amortized inference, replace MCMC-only diagnostics with the applicable approximation gates: training stability, fresh held-out recovery, SBC/calibration/coverage, contraction, estimator/seed disagreement, and simulator-based PPCs. If NLE/NRE is sampled with PyMC, apply both approximation and MCMC gates.
+
 ## Diagnostic escalation
 
 - Treat R-hat, ESS, chain mixing, autocorrelation, boundary behavior, and posterior correlation as a gate, not decoration.

@@ -1,5 +1,7 @@
 # EMC2 workflow
 
+Read `emc2-compatibility.md` first and inspect the installed namespace. Core and dynamic/trend capabilities currently differ across upstream branches.
+
 ## Design construction
 
 1. Load and recode data explicitly.
@@ -31,6 +33,8 @@ Treat this as a pattern, not a default answer. Confirm parameter names and scale
 - Remember that omitted group predictors do not remove hierarchical intercepts or variances.
 - Interpret population means/regressions/covariance, not participant point estimates as error-free observations.
 
+Keep the three model layers distinct: the subject design defines each participant's coefficients, the group distribution defines population variation/correlation, and `group_design()` explains existing subject coefficients with participant-level predictors.
+
 ## Priors
 
 - Specify means and uncertainty on the sampling scale.
@@ -53,6 +57,8 @@ fit_obj <- fit(
 ```
 
 Do not use `cores_per_chain` on Windows. With three default chains, `cores_for_chains = 3` generally means three chains in parallel and one CPU core per chain.
+
+Use the exact plural argument `cores_for_chains`; do not rely on R partial matching such as `cores_for_chain`.
 
 ## Saving and loading
 
@@ -80,6 +86,8 @@ Inspect at minimum:
 - posterior-predictive defective CDF/density and targeted statistics.
 
 If chains fail, identify whether the cause is coding, impossible likelihood cells, weak identification, prior geometry, scaling, multimodality, or insufficient sampling before extending iterations.
+
+Call `check()` only after a fit object exists. An `object not found` error is an upstream fitting/loading failure, not a convergence result.
 
 ## Comparison
 

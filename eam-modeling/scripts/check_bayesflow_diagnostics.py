@@ -15,9 +15,9 @@ Save the DataFrame before running this script:
     metrics.to_csv("metrics.csv")
 
 Usage:
-    python check_diagnostics.py --metrics metrics.csv
-    python check_diagnostics.py --metrics metrics.csv --history history.json
-    python check_diagnostics.py --metrics metrics.csv --output report.json
+    python check_bayesflow_diagnostics.py --metrics metrics.csv
+    python check_bayesflow_diagnostics.py --metrics metrics.csv --history history.json
+    python check_bayesflow_diagnostics.py --metrics metrics.csv --output report.json
 """
 
 import argparse
@@ -172,9 +172,9 @@ def suggest_next_steps(training_report: dict, diagnostic_report: dict) -> list[s
             "check that validation data are well-formed."
         )
     if training_report.get("overfitting", {}).get("detected"):
-        ratio = training_report["overfitting"].get("ratio", "?")
+        gap = training_report["overfitting"].get("relative_gap", "?")
         steps.append(
-            f"Overfitting detected (val/train loss ratio {ratio}x in final "
+            f"Possible overfitting detected (relative validation gap {gap} in final "
             "10% of epochs) — reduce network capacity, add regularization, "
             "or increase simulation budget."
         )
@@ -218,28 +218,27 @@ def suggest_next_steps(training_report: dict, diagnostic_report: dict) -> list[s
     if cal_poor:
         names = ", ".join(cal_poor)
         steps.append(
-            f"Poor calibration for {names} — increase summary network "
-            "capacity or train for more epochs."
+            f"Poor calibration for {names} — audit simulator support, transforms, "
+            "representation, and held-out split before changing training budget or capacity."
         )
     if recovery_poor:
         names = ", ".join(recovery_poor)
         steps.append(
-            f"Poor recovery for {names} — increase network capacity and "
-            "training duration; if no improvement, these parameters may be "
-            "weakly identifiable."
+            f"Poor recovery for {names} — test identifiability and summary sufficiency; "
+            "only then consider more simulations, training, or network capacity."
         )
     if contraction_poor:
         names = ", ".join(contraction_poor)
         steps.append(
             f"Overconfident posteriors for {names} — inspect the simulator "
-            "for potential issues and consider increasing the simulation budget."
+            "and calibration pipeline; do not interpret these posteriors until resolved."
         )
     if contraction_low:
         names = ", ".join(contraction_low)
         steps.append(
             f"Low contraction for {names} — the data may not be "
-            "informative for these parameters; consider a more informative "
-            "prior or a richer summary network."
+            "informative for these parameters; report weak identification and test "
+            "whether the design or representation can supply the missing information."
         )
     if cal_fair and not cal_poor:
         names = ", ".join(cal_fair)
@@ -308,7 +307,7 @@ def main():
             import os
 
             sys.path.insert(0, os.path.dirname(__file__))
-            from inspect_training import inspect_history
+            from inspect_bayesflow_training import inspect_history
 
             with open(args.history) as f:
                 history = json.load(f)
