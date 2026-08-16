@@ -2,12 +2,6 @@
 
 Use these as worked examples, not universal templates.
 
-## Local course materials
-
-Root:
-
-`C:/Users/Jack/Documents/Codex/2026-08-11/https-github-com-niekstevenson-mbncs26-tree/outputs/MBNCS26-Summer-School-Summaries/Source-Materials`
-
 - `Day1-BasicEAMs/`: WDM, DDM, RDM, LBA, LNR; single-subject fitting, diagnostics, prediction, recovery, comparison.
 - `Day2-Hierarchical/`: hierarchical LBA/DDM, group inference, between-subject regression, stop-signal lesson.
 - `Day3-Expressing/`: custom theory mappings, continuous judgments, joint cognitive modeling.
