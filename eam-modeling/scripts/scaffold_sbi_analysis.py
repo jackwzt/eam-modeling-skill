@@ -21,9 +21,11 @@ def pyproject(route: str) -> str:
     if route == "superstats":
         dependencies.append('"superstats==0.0.2"')
     else:
-        dependencies.extend(['"bayesflow==2.0.12"', '"keras>=3.15"'])
+        dependencies.extend(
+            ['"bayesflow==2.0.12"', '"keras==3.15.1"', '"jax==0.11.0"']
+        )
         if route in {"nle", "nre"}:
-            dependencies.append('"pymc>=6.2"')
+            dependencies.append('"pymc==6.2.0"')
     body = ",\n    ".join(dependencies)
     return f'''[project]
 name = "sbi-analysis"
@@ -40,7 +42,9 @@ def files(route: str) -> dict[str, str]:
         "README.md": (
             "# SBI analysis\n\n"
             f"Route: `{route}`. Record the question, simulator, prior, representation, estimator, validation gates, and provenance.\n\n"
-            "Create the environment with `uv sync`, then run scripts with `uv run python`.\n"
+            "Create the environment with `uv sync`, then run scripts with `uv run python`. "
+            "Ordinary BayesFlow routes use the audited JAX backend. "
+            "On Windows, prefer a short project path to avoid virtual-environment path-length failures.\n"
         ),
         "pyproject.toml": pyproject(route),
         "config.yaml": (
