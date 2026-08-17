@@ -26,6 +26,12 @@ jobs:
       - name: Validate package structure, links, and Python syntax
         run: python tools/validate_skill.py
 
+      - name: Smoke-test shared and Claude Code installation layouts
+        run: |
+          python tools/install_skill.py --agent all --scope project --project-root "${{ runner.temp }}/eam-skill-install"
+          test -f "${{ runner.temp }}/eam-skill-install/.agents/skills/eam-modeling/SKILL.md"
+          test -f "${{ runner.temp }}/eam-skill-install/.claude/skills/eam-modeling/SKILL.md"
+
   r-syntax:
     runs-on: ubuntu-latest
     steps:

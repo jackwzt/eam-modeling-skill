@@ -2,7 +2,7 @@
 
 ## MBNCS26 scope
 
-This independent skill was informed by the 12th Model-Based Cognition and Neuroscience Summer School (University of Amsterdam, 2026). It is not an official MBNCS26 product and does not imply endorsement by presenters, organizers, repository maintainers, their institutions, software projects, or OpenAI.
+This independent skill was informed by the 12th Model-Based Cognition and Neuroscience Summer School (University of Amsterdam, 2026). It is not an official MBNCS26 product and does not imply endorsement by presenters, organizers, repository maintainers, their institutions, software projects, or any AI-agent platform vendor.
 
 Audited course repository: `https://github.com/niekstevenson/MBNCS26`, commit `8e36fee0eaccfae831904cdcae7a94822c34014a`, audited 2026-08-16. The audited repository has no top-level license. Treat course notebooks, scripts, slides, recordings, datasets, checkpoints, and logos as all-rights-reserved unless their rights holders state otherwise. Link to the source and paraphrase concepts; do not redistribute course assets through this skill.
 

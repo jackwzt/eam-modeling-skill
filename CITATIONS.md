@@ -26,4 +26,4 @@ Use the citation recommended by each upstream repository when it differs from th
 
 When a deliverable substantially adapts MBNCS26 teaching material, cite the scientific methods and software as above and separately acknowledge the relevant presenter(s). See [CREDITS.md](CREDITS.md) for the schedule-derived credits and redistribution boundary.
 
-This repository is independent and does not imply endorsement by MBNCS26 presenters, organizers, their institutions, upstream software authors, or OpenAI.
+This repository is independent and does not imply endorsement by MBNCS26 presenters, organizers, their institutions, upstream software authors, or any AI-agent platform vendor.

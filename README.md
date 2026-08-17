@@ -5,7 +5,9 @@
 [![Validate skill](https://github.com/jackwzt/eam-modeling-skill/actions/workflows/validate.yml/badge.svg)](https://github.com/jackwzt/eam-modeling-skill/actions/workflows/validate.yml)
 [![Cite this repository](https://img.shields.io/badge/citation-CFF-blue.svg)](CITATION.cff)
 
-`eam-modeling` is a unified Codex skill for the five-day MBNCS26 curriculum: evidence-accumulation modeling with R/EMC2 plus simulation-based inference with BayesFlow and Superstats. It designs, fits, diagnoses, compares, validates, and reports both likelihood-based and amortized cognitive-model analyses.
+`eam-modeling` is a portable Agent Skill for the five-day MBNCS26 curriculum: evidence-accumulation modeling with R/EMC2 plus simulation-based inference with BayesFlow and Superstats. It designs, fits, diagnoses, compares, validates, and reports both likelihood-based and amortized cognitive-model analyses.
+
+The canonical `eam-modeling/` package follows the open Agent Skills specification. The same `SKILL.md`, references, and scripts can therefore be used by Codex and ChatGPT, Claude Code, GitHub Copilot, Gemini CLI, and other compatible clients; only the installation directory and explicit invocation syntax differ.
 
 The skill turns choice and response-time data into a reproducible analysis workflow with explicit data mapping, prior validation, convergence and calibration checks, posterior predictive assessment, and cautious scientific interpretation.
 
@@ -24,60 +26,74 @@ The skill turns choice and response-time data into a reproducible analysis workf
 
 ## Install
 
-### From Codex
+Install only the `eam-modeling/` package, not the whole repository, into a skill-discovery directory.
+
+### Cross-agent installer
+
+Clone the repository, then choose a profile:
+
+```bash
+git clone https://github.com/jackwzt/eam-modeling-skill.git
+cd eam-modeling-skill
+
+# Shared open-standard location: Codex, GitHub Copilot, and Gemini CLI
+python tools/install_skill.py --agent shared
+
+# Claude Code
+python tools/install_skill.py --agent claude
+
+# Both shared and Claude Code locations
+python tools/install_skill.py --agent all
+```
+
+Use `--scope project --project-root /path/to/project` for a repository-specific installation. Existing installations are not overwritten unless `--replace` is supplied; replacement keeps a timestamped backup outside the active `skills/` discovery directory.
+
+### Client locations
+
+| Client | Personal location | Project location | Explicit use |
+| --- | --- | --- | --- |
+| [Codex](https://developers.openai.com/codex/skills) | `~/.agents/skills/eam-modeling` | `.agents/skills/eam-modeling` | `$eam-modeling` or natural language |
+| [Claude Code](https://code.claude.com/docs/en/skills) | `~/.claude/skills/eam-modeling` | `.claude/skills/eam-modeling` | `/eam-modeling` or natural language |
+| [GitHub Copilot](https://docs.github.com/en/copilot/how-tos/copilot-on-github/customize-copilot/customize-cloud-agent/add-skills) | `~/.agents/skills/eam-modeling` or `~/.copilot/skills/eam-modeling` | `.agents/skills/eam-modeling` | matching natural-language request |
+| [Gemini CLI](https://geminicli.com/docs/cli/using-agent-skills/) | `~/.agents/skills/eam-modeling` or `~/.gemini/skills/eam-modeling` | `.agents/skills/eam-modeling` or `.gemini/skills/eam-modeling` | matching request; use `/skills reload` after changes |
+| Other compatible clients | Use the skill root documented by the client | Use its project skill root | client-specific |
+
+The optional `eam-modeling/agents/openai.yaml` supplies OpenAI UI metadata. Other clients can ignore it; all scientific instructions remain in the portable `SKILL.md` package.
+
+### Install from Codex
 
 Ask Codex:
 
 > Use `$skill-installer` to install the `eam-modeling` skill from `https://github.com/jackwzt/eam-modeling-skill/tree/main/eam-modeling`.
 
-Codex detects installed skill changes automatically. Restart Codex only if the skill does not appear.
-
-### Manual installation
-
-Clone the repository and copy only the `eam-modeling/` directory into your Codex skills directory.
-
-PowerShell:
-
-```powershell
-git clone https://github.com/jackwzt/eam-modeling-skill.git
-New-Item -ItemType Directory -Force "$env:USERPROFILE\.agents\skills" | Out-Null
-Copy-Item -Recurse -Force ".\eam-modeling-skill\eam-modeling" "$env:USERPROFILE\.agents\skills\"
-```
-
-macOS or Linux:
-
-```bash
-git clone https://github.com/jackwzt/eam-modeling-skill.git
-mkdir -p "$HOME/.agents/skills"
-cp -R ./eam-modeling-skill/eam-modeling "$HOME/.agents/skills/"
-```
+Codex detects installed skill changes automatically. Restart it only if the skill does not appear.
 
 ## Quick start
 
-Invoke the skill explicitly with `$eam-modeling`, or ask a matching question in natural language. For example:
+Invoke the skill with the syntax supported by your client, or ask a matching question in natural language. For example:
 
 ```text
-Use $eam-modeling to audit this RData file and map its participant, response,
+Use the eam-modeling skill to audit this RData file and map its participant, response,
 RT, condition, and trial-order columns before fitting anything.
 ```
 
 ```text
-Use $eam-modeling to build a hierarchical LBA analysis in EMC2, validate the
+Use the eam-modeling skill to build a hierarchical LBA analysis in EMC2, validate the
 priors, run a short pilot fit, and define the posterior predictive checks.
 ```
 
 ```text
-Use $eam-modeling to design a BayesFlow amortized workflow for this DDM
+Use the eam-modeling skill to design a BayesFlow amortized workflow for this DDM
 simulator, including recovery, calibration, and real-data PPCs.
 ```
 
 ```text
-Use $eam-modeling to build a Superstats workflow for time-varying drift and
+Use the eam-modeling skill to build a Superstats workflow for time-varying drift and
 threshold, using offline training, trajectory recovery, calibration, and PPCs.
 ```
 
 ```text
-Use $eam-modeling to explain this MBNCS26 Day 5 NLE notebook and adapt it to
+Use the eam-modeling skill to explain this MBNCS26 Day 5 NLE notebook and adapt it to
 PyMC without copying course assets into the output.
 ```
 
@@ -117,6 +133,7 @@ The included environment-check scripts report missing dependencies before analys
 ├── CITATIONS.bib
 ├── CREDITS.md
 ├── SECURITY.md
+├── tools/install_skill.py
 ├── tools/validate_skill.py
 ├── .github/
 │   ├── workflows/validate.yml
@@ -134,10 +151,10 @@ The included environment-check scripts report missing dependencies before analys
 
 ## Validation
 
-The skill follows the [Agent Skills specification](https://agentskills.io/specification). Validate the package with a compatible validator:
+The skill follows the [Agent Skills specification](https://agentskills.io/specification). Validate the package with the reference implementation:
 
 ```bash
-skills-ref validate ./eam-modeling
+uvx --from skills-ref agentskills validate ./eam-modeling
 ```
 
 The repository also includes a dependency-free structural validator used by GitHub Actions:
@@ -146,7 +163,7 @@ The repository also includes a dependency-free structural validator used by GitH
 python tools/validate_skill.py
 ```
 
-Contributors using Codex's bundled skill tools can additionally run `quick_validate.py` against the `eam-modeling/` directory. See [CONTRIBUTING.md](CONTRIBUTING.md) for the full checklist.
+Contributors using Codex's bundled skill tools can additionally run `quick_validate.py` against the `eam-modeling/` directory. See [CONTRIBUTING.md](CONTRIBUTING.md) for the complete cross-client checklist.
 
 ## Citation and attribution
 

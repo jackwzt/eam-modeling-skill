@@ -1,6 +1,6 @@
 # Credits and provenance
 
-`eam-modeling` is an independent skill maintained by [jackwzt](https://github.com/jackwzt). It was informed by the 12th Model-Based Cognition and Neuroscience Summer School (MBNCS26, University of Amsterdam, 2026), but it is not an official course product and is not endorsed by the presenters, organizers, their institutions, the software projects named below, or OpenAI.
+`eam-modeling` is an independent skill maintained by [jackwzt](https://github.com/jackwzt). It was informed by the 12th Model-Based Cognition and Neuroscience Summer School (MBNCS26, University of Amsterdam, 2026), but it is not an official course product and is not endorsed by the presenters, organizers, their institutions, the software projects named below, or any AI-agent platform vendor.
 
 ## MBNCS26 presenters
 

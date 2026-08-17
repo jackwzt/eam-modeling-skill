@@ -8,6 +8,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 
 ### Added
 
+- Cross-agent installation for the shared `.agents/skills` standard location and Claude Code, with user/project scopes, dry runs, and recoverable replacement backups.
+- Client-specific discovery and invocation guidance for ChatGPT/Codex, Claude Code, GitHub Copilot, Gemini CLI, and other Agent Skills-compatible clients.
 - Expanded repository documentation, installation instructions, contribution guidance, citation metadata, and GitHub Issue/PR templates.
 - Unified MBNCS26 Days 1-5 routing across EMC2 likelihood-based EAMs and BayesFlow/Superstats SBI.
 - NPE, NLE, NRE, PyMC composition, neural model-comparison, Day 5, Superstats, EMC2 compatibility, and course-provenance references.
