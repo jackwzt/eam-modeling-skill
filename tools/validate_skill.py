@@ -90,8 +90,14 @@ def main() -> int:
             errors.append("SKILL.md frontmatter must contain only name and description")
         if frontmatter.get("name") != SKILL.name:
             errors.append("skill name must match the eam-modeling directory")
+        if not re.fullmatch(r"[a-z0-9]+(?:-[a-z0-9]+)*", frontmatter.get("name", "")):
+            errors.append("skill name must follow the Agent Skills naming convention")
+        if len(frontmatter.get("name", "")) > 64:
+            errors.append("skill name must be at most 64 characters")
         if not frontmatter.get("description"):
             errors.append("skill description must not be empty")
+        if len(frontmatter.get("description", "")) > 1024:
+            errors.append("skill description must be at most 1024 characters")
         if len(text.splitlines()) >= 500:
             errors.append("SKILL.md must remain under 500 lines")
 
@@ -120,9 +126,7 @@ def main() -> int:
                 errors.append(f"Python syntax error in {path.relative_to(ROOT)}: {exc}")
 
     openai_yaml = SKILL / "agents" / "openai.yaml"
-    if not openai_yaml.is_file():
-        errors.append("missing agents/openai.yaml")
-    else:
+    if openai_yaml.is_file():
         interface = openai_yaml.read_text(encoding="utf-8")
         short_match = re.search(r'^\s*short_description:\s*"([^"]+)"\s*$', interface, re.MULTILINE)
         prompt_match = re.search(r'^\s*default_prompt:\s*"([^"]+)"\s*$', interface, re.MULTILINE)
@@ -140,6 +144,16 @@ def main() -> int:
                     "SBI scaffold is missing its audited inference dependency: "
                     f"{required_dependency}"
                 )
+
+    installer = ROOT / "tools" / "install_skill.py"
+    if not installer.is_file():
+        errors.append("missing cross-agent installer: tools/install_skill.py")
+
+    for path in (ROOT / "tools").glob("*.py"):
+        try:
+            compile(path.read_text(encoding="utf-8"), str(path), "exec")
+        except SyntaxError as exc:
+            errors.append(f"Python syntax error in {path.relative_to(ROOT)}: {exc}")
 
     if tracked:
         markdown_files = sorted(

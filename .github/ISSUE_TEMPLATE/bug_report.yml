@@ -43,8 +43,8 @@ body:
     id: environment
     attributes:
       label: Environment
-      description: Include operating system, Codex/client version if known, and relevant R/Python package versions.
-      placeholder: Windows 11; R 4.x; EMC2 x.y.z; Python 3.x; BayesFlow x.y.z
+      description: Include operating system, Agent/client version if known, installation profile, and relevant R/Python package versions.
+      placeholder: Windows 11; Claude Code/Codex/Copilot/Gemini version; R 4.x; EMC2 x.y.z; Python 3.x; BayesFlow x.y.z
     validations:
       required: true
 

@@ -7,7 +7,7 @@ authors:
 repository-code: "https://github.com/jackwzt/eam-modeling-skill"
 url: "https://github.com/jackwzt/eam-modeling-skill"
 license: MIT
-abstract: "An independent Codex skill for reproducible evidence-accumulation modeling and simulation-based inference with EMC2, BayesFlow, and Superstats."
+abstract: "A portable Agent Skill for reproducible evidence-accumulation modeling and simulation-based inference with EMC2, BayesFlow, and Superstats."
 keywords:
   - evidence accumulation model
   - cognitive modeling

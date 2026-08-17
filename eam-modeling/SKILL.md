@@ -110,7 +110,7 @@ Export the data mapping, exclusion ledger, formulas, contrasts, priors, simulato
 - Never treat participant posterior means as error-free outcomes when joint uncertainty propagation is feasible.
 - Never make a causal claim without an identified design, explicit graph/assumptions, and sensitivity/refutation checks.
 - Never copy or redistribute MBNCS26 notebooks, slides, recordings, datasets, logos, or checkpoints through this skill.
-- Never describe this skill as official or endorsed by MBNCS26 presenters, organizers, software authors, their institutions, or OpenAI.
+- Never describe this skill as official or endorsed by MBNCS26 presenters, organizers, software authors, their institutions, or any AI-agent platform vendor.
 - Keep unrelated courses and summer schools outside this MBNCS26 skill.
 
 ## Bundled tools

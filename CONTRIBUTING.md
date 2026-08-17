@@ -26,7 +26,7 @@ Keep `SKILL.md` concise and under 500 lines. Its YAML frontmatter must retain a 
 2. Edit only the files required by the proposed behavior.
 3. Update `CHANGELOG.md` under **Unreleased** for user-visible changes.
 4. Add or revise references when new dependencies, assumptions, or diagnostic gates are introduced.
-5. Keep `eam-modeling/agents/openai.yaml` aligned with the skill's purpose and default prompt.
+5. Keep the portable `SKILL.md` agent-neutral. When OpenAI-facing metadata changes, keep the optional `eam-modeling/agents/openai.yaml` aligned with it.
 
 ## Cite and credit sources
 
@@ -34,14 +34,14 @@ Keep `SKILL.md` concise and under 500 lines. Its YAML frontmatter must retain a 
 - Update `CITATIONS.md` and `CITATIONS.bib` when a new method needs a reusable citation.
 - Update `CREDITS.md` and the skill's provenance reference when adapting a new tutorial, course session, or software project.
 - Record the exact upstream revision and license when code or a close procedural adaptation is introduced.
-- Do not imply endorsement by course presenters, organizers, institutions, software authors, or OpenAI.
+- Do not imply endorsement by course presenters, organizers, institutions, software authors, or any AI-agent platform vendor.
 
 ## Validate
 
 Run an Agent Skills validator from the repository root:
 
 ```bash
-skills-ref validate ./eam-modeling
+uvx --from skills-ref agentskills validate ./eam-modeling
 ```
 
 Run the repository validator used by continuous integration:
@@ -63,6 +63,12 @@ For script changes:
 - Confirm that failures give actionable messages and do not modify raw input files.
 - Do not launch a costly MCMC fit or amortizer training run merely for a documentation change.
 
+For installation or portability changes, install into a temporary project root and verify both discovery layouts:
+
+```bash
+python tools/install_skill.py --agent all --scope project --project-root /tmp/eam-skill-test
+```
+
 For workflow changes, test a realistic prompt and verify that the skill chooses the intended route, reads only the relevant references, and applies the required diagnostic gates.
 
 ## Pull request checklist
@@ -72,6 +78,7 @@ For workflow changes, test a realistic prompt and verify that the skill chooses 
 - [ ] `SKILL.md` remains concise and all referenced paths resolve.
 - [ ] Helper scripts were exercised when changed.
 - [ ] The skill validator passes.
+- [ ] Installation and invocation guidance remains accurate for every named client.
 - [ ] `CHANGELOG.md` describes user-visible behavior.
 - [ ] New scientific claims include appropriate assumptions and limitations.
 - [ ] New sources have appropriate citations, credits, revisions, and license boundaries.
