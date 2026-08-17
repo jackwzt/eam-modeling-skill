@@ -9,7 +9,7 @@
 
 The skill turns choice and response-time data into a reproducible analysis workflow with explicit data mapping, prior validation, convergence and calibration checks, posterior predictive assessment, and cautious scientific interpretation.
 
-This is an independent community project. It links and credits the MBNCS26 presenters and upstream software authors, but it does not bundle course assets or imply endorsement by the course, its presenters, their institutions, upstream projects, or OpenAI.
+This is an independent community project. It links and credits the MBNCS26 presenters and upstream software authors, but it does not bundle course assets or imply endorsement by the course.
 
 ## What it supports
 
